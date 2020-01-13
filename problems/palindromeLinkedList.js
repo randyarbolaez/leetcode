@@ -1,22 +1,34 @@
 // Given a singly linked list, determine if it is a palindrome.
 
 var isPalindrome = function(head) {
-  let currentNode = head;
-  let stack = [];
-  let linkedListStr = "";
-  let reversedLinkedListStr = "";
-  while (currentNode != null) {
-    stack.push(currentNode.val);
-    currentNode = currentNode.next;
+  if (head == null) {
+    return true;
   }
-  let i = 0;
-  let j = stack.length - 1;
-  while (i < stack.length) {
-    linkedListStr += stack[i];
-    reversedLinkedListStr += stack[j];
-    i++;
-    j--;
-  }
+  let regularNode = JSON.parse(JSON.stringify(this.head));
+  let reversedNode = reverse({ ...head });
 
-  return linkedListStr == reversedLinkedListStr;
+  while (regularNode != null && reversedNode != null) {
+    if (regularNode.val !== reversedNode.val) {
+      return false;
+    }
+    reversedNode = reversedNode.next;
+    regularNode = regularNode.next;
+  }
+  return regularNode == null && reversedNode == null;
+};
+
+var reverse = function(head) {
+  let prev = null;
+  let curr = head;
+  let next = null;
+
+  while (curr !== null) {
+    next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  head = prev;
+
+  return head;
 };
